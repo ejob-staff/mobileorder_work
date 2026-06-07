@@ -17,50 +17,52 @@
 
 - /menuにアクセスした場合<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　loadProductsを実行する<br>
 　　GET /api/productsでリクエスト送信<br>
 <br>
 Java側<br>
-　`ProductController`:<br>
+　`ProductController`<br>
 　　GET /api/productsのリクエスト受取<br>
-　　`ProductService`:<br>
-　　　公開中の商品を取得する<br>
-　　　平均評価、レビュー件数、注文数を付けて`ProductResponse`に変換<br>
-　　React側へ商品一覧を返す<br>
+　　`ProductService`<br>
+　　　公開中の商品を取得<br>
+　　　平均評価、レビュー件数、注文数を付けてProductResponseに変換<br>
+　　　`ProductResponse`<br>
+　　　　商品一覧のレスポンス用DTO<br>
+　　→React側へ商品一覧を返す<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　取得した商品一覧をproductsに保存する<br>
-　　`MenuPageコンポーネント`へproductsを渡す<br>
-　`MenuPageコンポーネント`:<br>
-　　商品カードを表示する<br>
-  <br>
+　　MenuPageコンポーネントへproductsを渡す<br>
+　　`MenuPageコンポーネント`<br>
+　　　商品カードを表示する<br>
+<br>
 - 検索機能を使用する場合<br>
 React側<br>
-　`MenuPageコンポーネント`:<br>
+　`MenuPageコンポーネント`<br>
 　　検索文字をsearchTextとしてstateで管理する<br>
 　　商品名、カテゴリ、説明文に検索文字が含まれるか確認する<br>
 　　条件に合う商品だけを表示する<br>
-  <br>
+<br>
 - カテゴリを選択した場合<br>
 React側<br>
-　`MenuPageコンポーネント`:<br>
+　`MenuPageコンポーネント`<br>
 　　選択中カテゴリをcategoryとしてstateで管理する<br>
 　　すべての場合は全商品を表示する<br>
 　　カテゴリが選ばれている場合は、そのカテゴリの商品だけを表示する<br>
-  <br>
+<br>
 - 商品カードを押した場合<br>
 React側<br>
-　`MenuPageコンポーネント`:<br>
+　`MenuPageコンポーネント`<br>
 　　選択した商品をselectedProductに保存する<br>
 　　`ProductDetailModal`を表示する<br>
-  <br>
+<br>
 - ここで確認すること<br>
 　商品一覧はJava側から取得する<br>
 　検索とカテゴリ絞り込みはReact側で行っている<br>
 　非公開の商品は一般ユーザーの商品選択画面には表示しない<br>
-  <br>
+<br>
 - 参照ファイル<br>
 React側<br>
 　mobileorder-react/src/pages/MenuPage.jsx<br>
@@ -81,13 +83,13 @@ Java側<br>
 
 - 商品カードを押した場合<br>
 React側<br>
-　`MenuPageコンポーネント`:<br>
+　`MenuPageコンポーネント`<br>
 　　選択した商品をselectedProductに保存する<br>
 　　selectedProductがある場合だけ`ProductDetailModal`を表示する<br>
 
 - 数量を変更した場合<br>
 React側<br>
-　`ProductDetailModal`:<br>
+　`ProductDetailModal`<br>
 　　quantityをstateで管理する<br>
 　　-ボタンで数量を減らす<br>
 　　+ボタンで数量を増やす<br>
@@ -95,9 +97,9 @@ React側<br>
 
 - カートに追加するボタンを押した場合<br>
 React側<br>
-　`ProductDetailModal`:<br>
+　`ProductDetailModal`<br>
 　　選択した商品と数量を`MenuPageコンポーネント`へ渡す<br>
-　`MenuPageコンポーネント`:<br>
+　`MenuPageコンポーネント`<br>
 　　`Appコンポーネント`のaddToCartへ商品と数量を渡す<br>
 　　商品詳細モーダルを閉じる<br>
 
@@ -115,7 +117,7 @@ React側<br>
 
 - 商品をカートに追加した場合<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　addToCartを実行する<br>
 　　同じ商品がカートにあるか確認する<br>
 　　同じ商品がある場合:<br>
@@ -123,27 +125,23 @@ React側<br>
 　　　在庫数を超えないように調整する<br>
 　　同じ商品がない場合:<br>
 　　　商品情報と数量をcartに追加する<br>
-
-
+<br>
 - カートに商品がある場合<br>
 React側<br>
-　`MenuPageコンポーネント`:<br>
+　`MenuPageコンポーネント`<br>
 　　画面下部にカートバーを表示する<br>
 　　商品点数と合計金額を表示する<br>
 　　注文確認へ進むボタンを表示する<br>
-
-
+<br>
 - 注文確認へ進むボタンを押した場合<br>
 React側<br>
-　`MenuPageコンポーネント`:<br>
+　`MenuPageコンポーネント`<br>
 　　/order-confirmへ移動する<br>
-
-
+<br>
 - ここで確認すること<br>
 　cartは`Appコンポーネント`で管理している<br>
 　`MenuPageコンポーネント`はcartを受け取って画面に表示している<br>
-
-
+<br>
 - 参照ファイル<br>
 React側<br>
 　mobileorder-react/src/App.jsx<br>
@@ -154,22 +152,22 @@ React側<br>
 
 - /order-confirmにアクセスした場合<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　`OrderConfirmPageコンポーネント`へcartを渡す<br>
-　`OrderConfirmPageコンポーネント`:<br>
+　`OrderConfirmPageコンポーネント`<br>
 　　カート内の商品、数量、合計金額を表示する<br>
 
 - カートが空の場合<br>
 React側<br>
-　`OrderConfirmPageコンポーネント`:<br>
+　`OrderConfirmPageコンポーネント`<br>
 　　注文する商品が選択されていないメッセージを表示する<br>
 　　商品選択画面へ戻るボタンを表示する<br>
 
 - 数量を変更した場合<br>
 React側<br>
-　`OrderConfirmPageコンポーネント`:<br>
+　`OrderConfirmPageコンポーネント`<br>
 　　変更後の数量を`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　changeQuantityを実行する<br>
 　　数量が0以下の場合はカートから削除する<br>
 　　数量が1以上の場合はカート内の数量を更新する<br>
@@ -177,9 +175,9 @@ React側<br>
 
 - 削除ボタンを押した場合<br>
 React側<br>
-　`OrderConfirmPageコンポーネント`:<br>
+　`OrderConfirmPageコンポーネント`<br>
 　　削除対象の商品IDを`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　removeFromCartを実行する<br>
 　　対象の商品をカートから削除する<br>
 
@@ -197,7 +195,7 @@ React側<br>
 
 - 注文確認画面を表示した場合<br>
 React側<br>
-　`OrderConfirmPageコンポーネント`:<br>
+　`OrderConfirmPageコンポーネント`<br>
 　　buildPickupOptionsで受け取り日時の選択肢を作成する<br>
 　　現在時刻から次の10分単位の時刻を開始にする<br>
 　　現在時刻から4時間後までの時刻を作成する<br>
@@ -205,18 +203,18 @@ React側<br>
 
 - 日付をまたぐ場合<br>
 React側<br>
-　`OrderConfirmPageコンポーネント`:<br>
+　`OrderConfirmPageコンポーネント`<br>
 　　受け取り日の選択肢に翌日の日付も表示する<br>
 　　選択した日付に対応する時刻だけを表示する<br>
 
 - 日付が1つだけの場合<br>
 React側<br>
-　`OrderConfirmPageコンポーネント`:<br>
+　`OrderConfirmPageコンポーネント`<br>
 　　受け取り日のselectを非活性にする<br>
 
 - 注文を確定する場合<br>
 React側<br>
-　`OrderConfirmPageコンポーネント`:<br>
+　`OrderConfirmPageコンポーネント`<br>
 　　選択した日付と時刻をpickupAtとして作成する<br>
 　　`Appコンポーネント`のsubmitOrderへpickupAtを渡す<br>
 
@@ -233,19 +231,19 @@ React側<br>
 
 - 注文を確定するボタンを押した場合<br>
 React側<br>
-　`OrderConfirmPageコンポーネント`:<br>
+　`OrderConfirmPageコンポーネント`<br>
 　　pickupAtを`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　submitOrderを実行する<br>
 　　cartからproductIdとquantityを作成する<br>
 　　POST /api/ordersでリクエスト送信<br>
 <br>
 Java側<br>
-　`OrderController`:<br>
+　`OrderController`<br>
 　　POST /api/ordersのリクエスト受取<br>
 　　Principalからログイン中ユーザー名を取得する<br>
 　　`OrderService`へ処理を渡す<br>
-　`OrderService`:<br>
+　`OrderService`<br>
 　　MOBILE-CODE-######形式の注文番号を生成する<br>
 　　受け取り日時が現在から4時間以内か確認する<br>
 　　商品IDをもとに商品を取得する<br>
@@ -258,14 +256,14 @@ Java側<br>
 　　`OrderResponse`に変換してReact側へ返す<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　返ってきた注文情報をlatestOrderに保存する<br>
 　　cartを空にする<br>
 　　/order-completeへ移動する<br>
 
 - 注文登録に失敗した場合<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　Java側から返されたmessageを表示する<br>
 
 - ここで確認すること<br>
@@ -293,14 +291,14 @@ Java側<br>
 
 - 注文登録に成功した場合<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　latestOrderに注文情報を保存する<br>
 　　/order-completeへ移動する<br>
 　　`OrderCompletePageコンポーネント`へlatestOrderを渡す<br>
 
 - /order-completeを表示した場合<br>
 React側<br>
-　`OrderCompletePageコンポーネント`:<br>
+　`OrderCompletePageコンポーネント`<br>
 　　注文完了メッセージを表示する<br>
 　　注文番号を表示する<br>
 　　受け取り日時を表示する<br>
@@ -322,51 +320,51 @@ React側<br>
 
 - /order-statusにアクセスした場合<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　loadActiveOrdersを実行する<br>
 　　GET /api/orders/activeでリクエスト送信<br>
 <br>
 Java側<br>
-　`OrderController`:<br>
+　`OrderController`<br>
 　　GET /api/orders/activeのリクエスト受取<br>
 　　Principalからログイン中ユーザー名を取得する<br>
 　　`OrderService`へ処理を渡す<br>
-　`OrderService`:<br>
+　`OrderService`<br>
 　　ログイン中ユーザーの注文を取得する<br>
 　　進行中の注文を返す<br>
 　　受取完了後も10分間は表示対象にする<br>
 　　`OrderResponse`に変換してReact側へ返す<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　取得した注文一覧をordersに保存する<br>
 　　`OrderStatusPageコンポーネント`へordersを渡す<br>
-　`OrderStatusPageコンポーネント`:<br>
+　`OrderStatusPageコンポーネント`<br>
 　　注文番号、注文日時、受取日時、ステータス、商品名、数量、合計金額を表示する<br>
 
 - 提供済みの注文がある場合<br>
 React側<br>
-　`OrderStatusPageコンポーネント`:<br>
+　`OrderStatusPageコンポーネント`<br>
 　　受取完了ボタンを表示する<br>
 
 - 受取完了ボタンを押した場合<br>
 React側<br>
-　`OrderStatusPageコンポーネント`:<br>
+　`OrderStatusPageコンポーネント`<br>
 　　注文番号を`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　POST /api/orders/{orderNumber}/receivedでリクエスト送信<br>
 <br>
 Java側<br>
-　`OrderController`:<br>
+　`OrderController`<br>
 　　受取完了リクエストを受け取る<br>
 　　`OrderService`へ処理を渡す<br>
-　`OrderService`:<br>
+　`OrderService`<br>
 　　ログイン中ユーザー本人の注文か確認する<br>
 　　ステータスがSERVEDか確認する<br>
 　　条件を満たす場合はRECEIVEDに更新する<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　更新後の注文情報をordersに反映する<br>
 
 - ここで確認すること<br>
@@ -388,36 +386,36 @@ Java側<br>
 
 - /historyにアクセスした場合<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　loadHistoryを実行する<br>
 　　GET /api/ordersでリクエスト送信<br>
 <br>
 Java側<br>
-　`OrderController`:<br>
+　`OrderController`<br>
 　　GET /api/ordersのリクエスト受取<br>
 　　Principalからログイン中ユーザー名を取得する<br>
 　　`OrderService`へ処理を渡す<br>
-　`OrderService`:<br>
+　`OrderService`<br>
 　　ログイン中ユーザーの注文履歴を取得する<br>
 　　新しい注文から順番に並べる<br>
 　　`OrderResponse`に変換してReact側へ返す<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　取得した注文一覧をordersに保存する<br>
 　　`HistoryPageコンポーネント`へordersを渡す<br>
-　`HistoryPageコンポーネント`:<br>
+　`HistoryPageコンポーネント`<br>
 　　注文履歴カードを表示する<br>
 
 - 注文履歴カードを押した場合<br>
 React側<br>
-　`HistoryPageコンポーネント`:<br>
+　`HistoryPageコンポーネント`<br>
 　　選択した注文をselectedOrderに保存する<br>
 　　`OrderDetailModal`を表示する<br>
 
 - 注文詳細モーダルを表示する場合<br>
 React側<br>
-　`OrderDetailModal`:<br>
+　`OrderDetailModal`<br>
 　　注文番号、注文日時、受け取り日時、合計金額、ステータス、商品一覧を表示する<br>
 　　キャンセルされた注文の場合は店舗からの連絡も表示する<br>
 
@@ -464,13 +462,13 @@ Java側<br>
 ### 注文機能のエラー表示
 - Java側で条件を満たさない場合<br>
 Java側<br>
-　`OrderService`:<br>
+　`OrderService`<br>
 　　IllegalArgumentExceptionを投げる<br>
-　`ApiExceptionHandler`:<br>
+　`ApiExceptionHandler`<br>
 　　messageとしてReact側へ返す<br>
 <br>
 React側<br>
-　`apiRequest`:<br>
+　`apiRequest`<br>
 　　messageを読み取る<br>
 　画面側:<br>
 　　エラーメッセージを表示する<br>

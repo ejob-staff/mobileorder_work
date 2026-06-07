@@ -11,54 +11,54 @@
 
 - ログインボタンを押下した場合<br>
 React側<br>
-　`LoginPageコンポーネント`:<br>
+　`LoginPageコンポーネント`<br>
 　　ユーザー名とパスワードを入力する<br>
 　　ログインボタン押下後、ログイン処理を呼び出す<br>
 　　入力内容を`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　POST /api/loginでリクエスト送信<br>
 <br>
 Java側<br>
-　`SecurityConfig`:<br>
+　`SecurityConfig`<br>
 　　POST /api/loginのログイン処理が動く<br>
 　　`AppUserDetailsService`へユーザー検索を依頼する<br>
-　`AppUserDetailsService`:<br>
+　`AppUserDetailsService`<br>
 　　ユーザー名をもとにユーザーを検索する<br>
 　　利用可能なユーザーか確認する<br>
-　`SecurityConfig`:<br>
+　`SecurityConfig`<br>
 　　パスワードを確認する<br>
 　　ログインできるか判定する<br>
 
 - ログインできた場合<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　ログイン中ユーザーの情報を取得する<br>
 　　GET /api/auth/statusでリクエスト送信<br>
 <br>
 Java側<br>
-　`AuthController`:<br>
+　`AuthController`<br>
 　　ログイン状態を確認する<br>
 　　ユーザー名、権限、表示名を`AuthStatusResponse`で返す<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　ログイン情報をauthに保存する<br>
 　　管理者ユーザーは商品管理画面へ移動する<br>
 　　一般ユーザーは商品選択画面へ移動する<br>
 
 - ログインに失敗した場合<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　POST /api/auth/login-checkでリクエスト送信<br>
 <br>
 Java側<br>
-　`AuthController`:<br>
+　`AuthController`<br>
 　　ユーザー名とパスワードが一致するか確認する<br>
 　　利用可能なユーザーか確認する<br>
 　　matchedとenabledを返す<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　利用停止中の場合は専用メッセージを表示する<br>
 　　それ以外の場合はログイン失敗メッセージを表示する<br>
 
@@ -84,33 +84,33 @@ Java側<br>
 
 - 画面表示時<br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　ログイン状態確認処理を実行する<br>
 　　GET /api/auth/statusでリクエスト送信<br>
 <br>
 Java側<br>
-　`AuthController`:<br>
+　`AuthController`<br>
 　　ログイン状態を確認する<br>
 
 - ログインしていない場合<br>
 Java側<br>
-　`AuthController`:<br>
+　`AuthController`<br>
 　　ログインしていない状態として返す<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　authをnullにする<br>
 　　ログイン画面、新規アカウント作成画面、パスワード再設定画面だけ表示できる<br>
 
 - ログイン済みの場合<br>
 Java側<br>
-　`AuthController`:<br>
+　`AuthController`<br>
 　　ログイン中のユーザー名を取得する<br>
 　　`AppUserRepository`でユーザー情報を取得する<br>
 　　ユーザー名、権限、表示名を`AuthStatusResponse`で返す<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　authにログイン情報を保存する<br>
 　　権限に応じて表示できる画面を切り替える<br>
 
@@ -132,19 +132,19 @@ Java側<br>
 
 - 登録ボタンを押下した場合<br>
 React側<br>
-　`SignupPageコンポーネント`:<br>
+　`SignupPageコンポーネント`<br>
 　　ユーザー管理番号、ユーザー名、パスワード、確認用パスワードを入力する<br>
 　　新規アカウント作成処理を呼び出す<br>
 　　入力内容を`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　POST /api/signupでリクエスト送信<br>
 <br>
 Java側<br>
-　`AccountController`:<br>
+　`AccountController`<br>
 　　POST /api/signupのリクエスト受取<br>
 　　`SignupRequest`で入力内容を受け取る<br>
 　　`AccountService`へ処理を渡す<br>
-　`AccountService`:<br>
+　`AccountService`<br>
 　　パスワードと確認用パスワードが一致するか確認する<br>
 　　同じユーザー名が既に使われていないか確認する<br>
 　　ユーザー管理番号が存在するか確認する<br>
@@ -156,12 +156,12 @@ Java側<br>
 
 - 登録できた場合<br>
 React側<br>
-　`SignupPageコンポーネント`:<br>
+　`SignupPageコンポーネント`<br>
 　　ログイン画面へ移動する<br>
 
 - 登録に失敗した場合<br>
 React側<br>
-　`SignupPageコンポーネント`:<br>
+　`SignupPageコンポーネント`<br>
 　　Java側から返されたメッセージを表示する<br>
 
 - ここで確認すること<br>
@@ -185,19 +185,19 @@ Java側<br>
 
 - 再設定ボタンを押下した場合<br>
 React側<br>
-　`PasswordResetPageコンポーネント`:<br>
+　`PasswordResetPageコンポーネント`<br>
 　　ユーザー管理番号、ユーザー名、新しいパスワードを入力する<br>
 　　パスワード再設定処理を呼び出す<br>
 　　入力内容を`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　POST /api/password-resetでリクエスト送信<br>
 <br>
 Java側<br>
-　`AccountController`:<br>
+　`AccountController`<br>
 　　POST /api/password-resetのリクエスト受取<br>
 　　`PasswordResetRequest`で入力内容を受け取る<br>
 　　`AccountService`へ処理を渡す<br>
-　`AccountService`:<br>
+　`AccountService`<br>
 　　新しいパスワードと確認用パスワードが一致するか確認する<br>
 　　ユーザー管理番号が存在するか確認する<br>
 　　ユーザー管理番号が使用済みであることを確認する<br>
@@ -207,12 +207,12 @@ Java側<br>
 
 - 再設定できた場合<br>
 React側<br>
-　`PasswordResetPageコンポーネント`:<br>
+　`PasswordResetPageコンポーネント`<br>
 　　ログイン画面へ移動する<br>
 
 - 再設定に失敗した場合<br>
 React側<br>
-　`PasswordResetPageコンポーネント`:<br>
+　`PasswordResetPageコンポーネント`<br>
 　　Java側から返されたメッセージを表示する<br>
 
 - ここで確認すること<br>
@@ -236,25 +236,25 @@ Java側<br>
 
 - ログアウトボタンを押下した場合<br>
 React側<br>
-　`Headerコンポーネント`:<br>
+　`Headerコンポーネント`<br>
 　　ログアウト処理を呼び出す<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　確認モーダルを表示する<br>
 
 - ログアウトを確定した場合<br>
 React側<br>
-　`ConfirmModalコンポーネント`:<br>
+　`ConfirmModalコンポーネント`<br>
 　　確定処理を呼び出す<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　POST /api/logoutでリクエスト送信<br>
 <br>
 Java側<br>
-　`SecurityConfig`:<br>
+　`SecurityConfig`<br>
 　　ログアウト処理が動く<br>
 　　ログアウト成功時は204を返す<br>
 <br>
 React側<br>
-　`Appコンポーネント`:<br>
+　`Appコンポーネント`<br>
 　　authをnullにする<br>
 　　cartを空にする<br>
 　　ログイン画面へ移動する<br>
