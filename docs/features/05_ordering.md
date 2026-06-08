@@ -16,52 +16,46 @@
 一般ユーザーでのログインが必要<br>
 
 - /menuにアクセスした場合<br>
-React側<br>
-　`Appコンポーネント`<br>
-　　loadProductsを実行する<br>
-　　GET /api/productsでリクエスト送信<br>
+`Appコンポーネント`<br>
+　loadProductsを実行する<br>
+　GET /api/productsでリクエスト送信<br>
 <br>
-Java側<br>
-　`ProductController`<br>
-　　GET /api/productsのリクエスト受取<br>
-　　`ProductService`<br>
-　　　公開中の商品を取得<br>
-　　　平均評価、レビュー件数、注文数を付けてProductResponseに変換<br>
-　　　`ProductResponse`<br>
-　　　　商品一覧のレスポンス用DTO<br>
-　　→React側へ商品一覧を返す<br>
+`ProductController`<br>
+　GET /api/productsのリクエスト受取<br>
+　`ProductService`<br>
+　　公開中の商品を取得<br>
+　　平均評価、レビュー件数、注文数を付けてProductResponseに変換<br>
+　　`ProductResponse`<br>
+　　　商品一覧のレスポンス用DTO<br>
+→React側へ商品一覧を返す<br>
 <br>
-React側<br>
-　`Appコンポーネント`<br>
-　　取得した商品一覧をproductsに保存する<br>
-　　MenuPageコンポーネントへproductsを渡す<br>
-　　`MenuPageコンポーネント`<br>
-　　　商品カードを表示する<br>
+`Appコンポーネント`<br>
+　取得した商品一覧をproductsに保存する<br>
+　MenuPageコンポーネントへproductsを渡す<br>
+　`MenuPageコンポーネント`<br>
+　　商品カードを表示する<br>
 <br>
 - 検索機能を使用する場合<br>
-React側<br>
-　`MenuPageコンポーネント`<br>
-　　検索文字をsearchTextとしてstateで管理する<br>
-　　商品名、カテゴリ、説明文に検索文字が含まれるか確認する<br>
-　　条件に合う商品だけを表示する<br>
+`MenuPageコンポーネント`<br>
+　検索文字をsearchTextとしてstateで管理する<br>
+　商品名、カテゴリ、説明文に検索文字が含まれるか確認する<br>
+　条件に合う商品だけを表示する<br>
 <br>
 - カテゴリを選択した場合<br>
-React側<br>
-　`MenuPageコンポーネント`<br>
-　　選択中カテゴリをcategoryとしてstateで管理する<br>
-　　すべての場合は全商品を表示する<br>
-　　カテゴリが選ばれている場合は、そのカテゴリの商品だけを表示する<br>
+`MenuPageコンポーネント`<br>
+　選択中カテゴリをcategoryとしてstateで管理する<br>
+　すべての場合は全商品を表示する<br>
+　カテゴリが選ばれている場合は、そのカテゴリの商品だけを表示する<br>
 <br>
 - 商品カードを押した場合<br>
-React側<br>
-　`MenuPageコンポーネント`<br>
-　　選択した商品をselectedProductに保存する<br>
-　　`ProductDetailModal`を表示する<br>
+`MenuPageコンポーネント`<br>
+　選択した商品をselectedProductに保存する<br>
+　`ProductDetailModal`を表示する<br>
 <br>
 - ここで確認すること<br>
-　商品一覧はJava側から取得する<br>
-　検索とカテゴリ絞り込みはReact側で行っている<br>
-　非公開の商品は一般ユーザーの商品選択画面には表示しない<br>
+商品一覧はJava側から取得する<br>
+検索とカテゴリ絞り込みはReact側で行っている<br>
+非公開の商品は一般ユーザーの商品選択画面には表示しない<br>
 <br>
 - 参照ファイル<br>
 React側<br>
@@ -82,10 +76,9 @@ Java側<br>
 商品詳細モーダルでは、商品カードで選択した商品の詳細確認と数量選択を行う<br>
 
 - 商品カードを押した場合<br>
-React側<br>
-　`MenuPageコンポーネント`<br>
-　　選択した商品をselectedProductに保存する<br>
-　　selectedProductがある場合だけ`ProductDetailModal`を表示する<br>
+`MenuPageコンポーネント`<br>
+　選択した商品をselectedProductに保存する<br>
+　selectedProductがある場合だけ`ProductDetailModal`を表示する<br>
 
 - 数量を変更した場合<br>
 React側<br>
