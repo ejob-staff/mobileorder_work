@@ -11,12 +11,16 @@ function OrderDetailModal({ order, onClose }) {
         <div className="order-status-head">
           <div>
             <p className="eyebrow">Order Detail</p>
-            <h2 id="order-detail-title">注文番号: {order.id}</h2>
+            <h2 id="order-detail-title">注文履歴詳細</h2>
           </div>
           <span className={`order-badge ${order.status.toLowerCase()}`}>{order.statusLabel}</span>
         </div>
 
         <dl className="order-detail-list">
+          <div>
+            <dt>注文番号</dt>
+            <dd>{order.id}</dd>
+          </div>
           <div>
             <dt>注文日時</dt>
             <dd>{order.createdAt}</dd>
@@ -35,9 +39,9 @@ function OrderDetailModal({ order, onClose }) {
           </div>
         </dl>
 
-        <section>
-          <h3>商品一覧</h3>
-          <ul className="order-items">
+        <section className="order-items">
+          <h3>注文商品</h3>
+          <ul>
             {order.items.map((item) => <li key={item.id}>{item.name} × {item.quantity}</li>)}
           </ul>
         </section>
