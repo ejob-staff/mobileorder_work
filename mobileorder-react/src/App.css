@@ -2251,3 +2251,20 @@ textarea:focus {
   display: grid;
   gap: 6px;
 }
+
+/*7-1.アカウント管理機能 追加CSS*/
+.account-panel {
+  width: min(520px, 100%);
+  margin-inline: auto;
+}
+
+.account-panel > button,
+.account-panel .form-actions button {
+  min-height: 34px;
+  padding: 7px 14px;
+  font-size: 13px;
+}
+
+.account-panel > button {
+  justify-self: start;
+}
