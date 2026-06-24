@@ -138,7 +138,7 @@ export default function ProductFormPage({ mode, product, onSubmit, onNavigate, o
             type="button"
             onClick={() => onConfirm({
               title: '編集キャンセルの確認',
-              message: '入力内容をクリアして商品管理画面に戻ります。よろしいでしょうか。',
+              message: '編集内容をクリアして商品管理画面に戻ります。よろしいでしょうか。',
               confirmText: '商品管理に戻る',
               onConfirm: () => onNavigate('/admin/products'),
             })}
