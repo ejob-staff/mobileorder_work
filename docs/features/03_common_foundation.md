@@ -192,11 +192,11 @@ Java側<br>
 React側<br>
 　`Appコンポーネント`<br>
 　　ログイン済みの場合はauthにログイン情報を保存する<br>
-　　ログインしていない場合はauthをnullにする<br>
+　　ログインしていない場合はauthをnullにする<br><br>
 
 - ここで確認すること<br>
 　authがあるかどうかでログイン済みか判断している<br>
-　auth.roleがuserなら一般ユーザー、adminなら管理者ユーザーとして扱う<br>
+　auth.roleがuserなら一般ユーザー、adminなら管理者ユーザーとして扱う<br><br>
 
 - 参照ファイル<br>
 React側<br>
@@ -213,17 +213,17 @@ URLと画面遷移の管理では、現在のURLを見て表示する画面を�
 React側<br>
 　`Appコンポーネント`<br>
 　　useLocationで現在表示している画面のURLを取得する<br>
-　　location.pathnameをrouteとして扱う<br>
+　　location.pathnameをrouteとして扱う<br><br>
 
 - 画面を移動する場合<br>
 React側<br>
 　`Appコンポーネント`<br>
 　　useNavigateから取得したnavigateを使う<br>
-　　navigate('/menu')のように指定したURLへ移動する<br>
+　　navigate('/menu')のように指定したURLへ移動する<br><br>
 
 - ここで確認すること<br>
 　React側ではURLを見て表示画面を決めている<br>
-　ボタン押下時はnavigateを使って別画面へ移動している<br>
+　ボタン押下時はnavigateを使って別画面へ移動している<br><br>
 
 - 参照ファイル<br>
 React側<br>
@@ -237,28 +237,28 @@ React側<br>
 　`Appコンポーネント`<br>
 　　auth.roleを確認する<br>
 　　一般ユーザーの場合はisUserとして扱う<br>
-　　管理者ユーザーの場合はisAdminとして扱う<br>
+　　管理者ユーザーの場合はisAdminとして扱う<br><br>
 <br>
 Java側<br>
 　`Role`<br>
 　　ROLE_USERを一般ユーザーとして扱う<br>
-　　ROLE_ADMINを管理者ユーザーとして扱う<br>
+　　ROLE_ADMINを管理者ユーザーとして扱う<br><br>
 
 - 一般ユーザーの場合<br>
 React側<br>
 　`Appコンポーネント`<br>
 　　一般ユーザー用画面を表示する<br>
-　　管理者ユーザー用画面へアクセスした場合は権限エラー画面を表示する<br>
+　　管理者ユーザー用画面へアクセスした場合は権限エラー画面を表示する<br><br>
 
 - 管理者ユーザーの場合<br>
 React側<br>
 　`Appコンポーネント`<br>
 　　管理者ユーザー用画面を表示する<br>
-　　一般ユーザー用画面へアクセスした場合は権限エラー画面を表示する<br>
+　　一般ユーザー用画面へアクセスした場合は権限エラー画面を表示する<br><br>
 
 - ここで確認すること<br>
 　画面側ではisUser、isAdminを使って表示可否を分けている<br>
-　API側ではSpring Securityでアクセス権限を分けている<br>
+　API側ではSpring Securityでアクセス権限を分けている<br><br>
 
 - 参照ファイル<br>
 React側<br>
@@ -274,18 +274,17 @@ Java側<br>
 React側<br>
 　`Appコンポーネント`<br>
 　　現在のURLとログイン中ユーザーの権限を確認する<br>
-　　表示できる画面ではない場合、`AccessDeniedPageコンポーネント`を表示する<br>
+　　表示できる画面ではない場合、AccessDeniedPageコンポーネントを表示する<br><br>
 　`AccessDeniedPageコンポーネント`<br>
-　　この画面を利用する権限がないことを表示する<br>
-<br>
+　　この画面を利用する権限がないことを表示する<br><br>
 Java側<br>
 　`SecurityConfig`<br>
 　　APIのアクセス権限を確認する<br>
-　　権限がないAPIへのアクセスは拒否する<br>
+　　権限がないAPIへのアクセスは拒否する<br><br>
 
 - ここで確認すること<br>
 　React側は画面表示を制御している<br>
-　Java側はAPIアクセスを制御している<br>
+　Java側はAPIアクセスを制御している<br><br>
 
 - 参照ファイル<br>
 React側<br>
@@ -309,14 +308,14 @@ React側<br>
 Java側<br>
 　`Controller`<br>
 　　APIリクエストを受け取る<br>
-　　`Service`へ処理を渡す<br>
+　　Serviceへ処理を渡す<br>
 　`Service`<br>
 　　必要なデータを取得する<br>
-　　`DTO`に変換してReact側へ返す<br>
+　　DTOに変換してReact側へ返す<br><br>
 
 - ここで確認すること<br>
-　`Appコンポーネント`が各画面に必要なデータをまとめて取得している<br>
-　各画面コンポーネントは受け取ったデータを表示する役割が中心になる<br>
+　Appコンポーネントが各画面に必要なデータをまとめて取得している<br>
+　各画面コンポーネントは受け取ったデータを表示する役割が中心になる<br><br>
 
 - 参照ファイル<br>
 React側<br>
@@ -335,15 +334,15 @@ Java側<br>
 - 画面表示時<br>
 React側<br>
 　`Appコンポーネント`<br>
-　　`Headerコンポーネント`へauth、route、画面遷移処理、ログアウト処理を渡す<br>
+　　Headerコンポーネントへauth、route、画面遷移処理、ログアウト処理を渡す<br>
 　`Headerコンポーネント`<br>
 　　auth.roleを確認する<br>
 　　一般ユーザー用メニュー、管理者ユーザー用メニューを切り替える<br>
-　　routeを見て現在表示中のメニューを選択状態にする<br>
+　　routeを見て現在表示中のメニューを選択状態にする<br><br>
 
 - ここで確認すること<br>
 　ヘッダーは全画面共通で表示している<br>
-　表示するメニューはログイン中ユーザーの権限で変わる<br>
+　表示するメニューはログイン中ユーザーの権限で変わる<br><br>
 
 - 参照ファイル<br>
 React側<br>
@@ -356,24 +355,24 @@ React側<br>
 - 確認が必要な操作を押した場合<br>
 React側<br>
 　画面コンポーネント:<br>
-　　確認したい内容を`Appコンポーネント`へ渡す<br>
+　　確認したい内容をAppコンポーネントへ渡す<br>
 　`Appコンポーネント`<br>
 　　showConfirmを実行する<br>
 　　確認モーダルの内容をconfirmModalに保存する<br>
-　　`ConfirmModalコンポーネント`へmodal情報を渡す<br>
+　　ConfirmModalコンポーネントへmodal情報を渡す<br>
 　`ConfirmModalコンポーネント`<br>
-　　タイトル、本文、確認ボタンを表示する<br>
+　　タイトル、本文、確認ボタンを表示する<br><br>
 
 - 確認ボタンを押した場合<br>
 React側<br>
 　`ConfirmModalコンポーネント`<br>
 　　確定処理を呼び出す<br>
 　`Appコンポーネント`<br>
-　　登録、削除、キャンセルなどの本処理を実行する<br>
+　　登録、削除、キャンセルなどの本処理を実行する<br><br>
 
 - ここで確認すること<br>
 　確認モーダルは全画面共通で使っている<br>
-　各画面でモーダルを個別に作らず、`Appコンポーネント`でまとめて管理している<br>
+　各画面でモーダルを個別に作らず、Appコンポーネントでまとめて管理している<br><br>
 
 - 参照ファイル<br>
 React側<br>
@@ -385,18 +384,18 @@ API通信の共通処理では、React側からJava側へリクエストを送�
 
 - APIを呼び出す場合<br>
 React側<br>
-　画面コンポーネント、または`Appコンポーネント`<br>
+　画面コンポーネント、またはAppコンポーネント<br>
 　　apiRequestを呼び出す<br>
 　`apiRequest`<br>
 　　fetchでJava側APIへリクエスト送信する<br>
 　　Cookieを含めて通信する<br>
 　　正常時はJSONを返す<br>
 　　204 No Contentの場合はnullを返す<br>
-　　エラー時はmessageを読み取ってErrorとして扱う<br>
+　　エラー時はmessageを読み取ってErrorとして扱う<br><br>
 
 - ここで確認すること<br>
 　API通信の共通処理はclient.jsにまとめている<br>
-　各画面で同じfetch処理を何度も書かないようにしている<br>
+　各画面で同じfetch処理を何度も書かないようにしている<br><br>
 
 - 参照ファイル<br>
 React側<br>
@@ -417,12 +416,12 @@ React側<br>
 　`apiRequest`<br>
 　　messageを読み取る<br>
 　　Errorとして画面側へ渡す<br>
-　画面コンポーネント:<br>
-　　エラーメッセージを表示する<br>
+　`画面コンポーネント:`<br>
+　　エラーメッセージを表示する<br><br>
 
 - ここで確認すること<br>
 　Java側のエラー文言をReact側で表示できる<br>
-　エラーレスポンスの形を`ApiExceptionHandler`で共通化している<br>
+　エラーレスポンスの形をApiExceptionHandlerで共通化している<br><br>
 
 - 参照ファイル<br>
 React側<br>
@@ -442,23 +441,23 @@ React側<br>
 Java側<br>
 　`SecurityConfig`<br>
 　　/api/loginをログイン処理として扱う<br>
-　　`AppUserDetailsService`へユーザー検索を依頼する<br>
+　　AppUserDetailsServiceへユーザー検索を依頼する<br>
 　`AppUserDetailsService`<br>
 　　ユーザー名をもとにユーザー情報を取得する<br>
 　`SecurityConfig`<br>
 　　パスワードを確認する<br>
-　　ログインできるか判定する<br>
+　　ログインできるか判定する<br><br>
 
 - APIへアクセスする場合<br>
 Java側<br>
 　`SecurityConfig`<br>
 　　requestMatchersでURLごとの権限を確認する<br>
 　　/api/admin/**は管理者ユーザーだけ利用できる<br>
-　　/api/orders/**や/api/reviews/**は一般ユーザーだけ利用できる<br>
+　　/api/orders/**や/api/reviews/**は一般ユーザーだけ利用できる<br><br>
 
 - ここで確認すること<br>
 　Spring Securityはログイン処理とAPIアクセス制御を担当している<br>
-　画面表示だけでなく、Java側でも権限を確認している<br>
+　画面表示だけでなく、Java側でも権限を確認している<br><br>
 
 - 参照ファイル<br>
 Java側<br>
@@ -472,17 +471,17 @@ Java側<br>
 React側<br>
 　`RatingStarsコンポーネント`<br>
 　　評価値とレビュー件数を受け取る<br>
-　　スター、数値、レビュー件数を表示する<br>
+　　スター、数値、レビュー件数を表示する<br><br>
 
 - 商品ビジュアルを表示する場合<br>
 React側<br>
 　`ProductVisualコンポーネント`<br>
 　　商品のaccentを受け取る<br>
-　　商品ごとの色味を画面に表示する<br>
+　　商品ごとの色味を画面に表示する<br><br>
 
 - ここで確認すること<br>
 　複数画面で使う表示は共通部品として切り出している<br>
-　商品選択画面、商品管理画面、注文評価画面などで再利用できる<br>
+　商品選択画面、商品管理画面、注文評価画面などで再利用できる<br><br>
 
 - 参照ファイル<br>
 React側<br>
