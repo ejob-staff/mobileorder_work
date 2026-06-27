@@ -17,12 +17,12 @@
 - [共通部品](#共通部品)
 
 ### 設計資料
-docs/<br>
+`docs/`<br>
 　01_requirements.md ---- 要件定義<br>
 　02_basic_design.md ---- 基本設計<br>
 　03_detail_design.md --- 詳細設計<br>
-　04_database_design.md - DB設計<br>
-　features/<br>
+　04_database_design.md - DB設計<br><br>
+　`features/`<br>
 　　03_common_foundation.md -- 共通基盤と画面遷移<br>
 　　04_authentication.md ----- 認証機能<br>
 　　05_ordering.md ----------- 注文機能<br>
@@ -36,19 +36,19 @@ docs/<br>
 　　13_initial_data.md ------- 初期データ登録<br>
 
 ### React側ソース
-mobileorder-react/src/<br>
+`mobileorder-react/src/`<br>
 　main.jsx ---------------------- Reactアプリの起動処理<br>
 　App.jsx ----------------------- Reactアプリ全体の中心<br>
 　App.css ----------------------- 共通CSS<br>
-　index.css --------------------- 全体の基本CSS<br>
-　api/<br>
-　　client.js --------------------- API通信の共通処理<br>
-　components/<br>
+　index.css --------------------- 全体の基本CSS<br><br>
+　`api/`<br>
+　　client.js --------------------- API通信の共通処理<br><br>
+　`components/`<br>
 　　Header.jsx -------------------- 共通ヘッダー<br>
 　　ConfirmModal.jsx -------------- 確認モーダル<br>
 　　RatingStars.jsx --------------- スター評価表示部品<br>
-　　ProductVisual.jsx ------------- 商品ビジュアル部品<br>
-　pages/<br>
+　　ProductVisual.jsx ------------- 商品ビジュアル部品<br><br>
+　`pages/`<br>
 　　LoginPage.jsx ----------------- ログイン画面<br>
 　　SignupPage.jsx ---------------- 新規アカウント作成画面<br>
 　　PasswordResetPage.jsx --------- パスワード再設定画面<br>
@@ -59,8 +59,8 @@ mobileorder-react/src/<br>
 　　HistoryPage.jsx --------------- 注文履歴確認画面<br>
 　　ReviewPage.jsx ---------------- 注文評価登録画面<br>
 　　AccountPage.jsx --------------- アカウント管理画面<br>
-　　AccessDeniedPage.jsx ---------- 権限エラー画面<br>
-　　admin/<br>
+　　AccessDeniedPage.jsx ---------- 権限エラー画面<br><br>
+　　`admin/`<br>
 　　　AdminProductsPage.jsx --------- 商品管理画面<br>
 　　　ProductFormPage.jsx ----------- 商品登録、商品編集画面<br>
 　　　AdminOrdersPage.jsx ----------- 注文対応管理画面<br>
@@ -70,12 +70,12 @@ mobileorder-react/src/<br>
 　　　AdminUserRegistrationPage.jsx - 新規管理者ユーザー登録画面<br>
 
 ### Java側ソース
-src/main/java/jp/co/mobileorder/<br>
-　Application.java ------------------ Spring Bootアプリの起動クラス<br>
-　config/<br>
+`src/main/java/jp/co/mobileorder/`<br>
+　Application.java ------------------- Spring Bootアプリの起動クラス<br><br>
+　`config/`<br>
 　　SecurityConfig.java --------------- SpringSecurityの基本設定<br>
-　　DataInitializer.java -------------- 初期データ登録<br>
-　controller/<br>
+　　DataInitializer.java -------------- 初期データ登録<br><br>
+　`controller/`<br>
 　　AccountController.java ------------ 新規登録、パスワード再設定API<br>
 　　AccountProfileController.java ----- アカウント情報API<br>
 　　AdminUserController.java ---------- ユーザー管理API<br>
@@ -84,8 +84,8 @@ src/main/java/jp/co/mobileorder/<br>
 　　AuthController.java --------------- ログイン状態確認API<br>
 　　OrderController.java -------------- 注文API<br>
 　　ProductController.java ------------ 商品API<br>
-　　ProductReviewController.java ------ 注文評価API<br>
-　dto/<br>
+　　ProductReviewController.java ------ 注文評価API<br><br>
+　`dto/`<br>
 　　AccountResponse.java -------------- アカウント情報レスポンス<br>
 　　AccountUpdateRequest.java --------- アカウント更新リクエスト<br>
 　　AdminUserRequest.java ------------- 管理者ユーザー登録リクエスト<br>
@@ -102,8 +102,8 @@ src/main/java/jp/co/mobileorder/<br>
 　　ProductReviewRequest.java --------- 注文評価登録リクエスト<br>
 　　ProductReviewResponse.java -------- 注文評価レスポンス<br>
 　　SignupRequest.java ---------------- 新規アカウント作成リクエスト<br>
-　　UserManagementCodeResponse.java --- ユーザー管理番号レスポンス<br>
-　entity/<br>
+　　UserManagementCodeResponse.java --- ユーザー管理番号レスポンス<br><br>
+　`entity/`<br>
 　　AppUser.java ---------------------- ユーザー「app_user」<br>
 　　MobileOrder.java ------------------ 注文「mobile_order」<br>
 　　OrderItem.java -------------------- 注文商品「order_item」<br>
@@ -111,14 +111,14 @@ src/main/java/jp/co/mobileorder/<br>
 　　Product.java ---------------------- 商品「product」<br>
 　　ProductReview.java ---------------- 注文評価「product_review」<br>
 　　Role.java ------------------------- ユーザー権限「テーブルなし」<br>
-　　UserManagementCode.java ----------- ユーザー管理番号「user_management_code」<br>
-　repository/<br>
+　　UserManagementCode.java ----------- ユーザー管理番号「user_management_code」<br><br>
+　`repository/`<br>
 　　AppUserRepository.java ------------ ユーザーRepository<br>
 　　MobileOrderRepository.java -------- 注文Repository<br>
 　　ProductRepository.java ------------ 商品Repository<br>
 　　ProductReviewRepository.java ------ 注文評価Repository<br>
-　　UserManagementCodeRepository.java - 管理番号Repository<br>
-　service/<br>
+　　UserManagementCodeRepository.java - 管理番号Repository<br><br>
+　`service/`<br>
 　　AccountProfileService.java -------- アカウント情報処理<br>
 　　AccountService.java --------------- 新規登録、パスワード再設定処理<br>
 　　AdminUserService.java ------------- ユーザー管理処理<br>
@@ -129,12 +129,13 @@ src/main/java/jp/co/mobileorder/<br>
 　　ProductService.java --------------- 商品処理<br>
 
 ### 各画面のURL
-- 未ログインの場合<br>
+`未ログインの場合`<br>
 　/signup -- 新規アカウント作成画面<br>
 　/password-reset -- パスワード再設定画面<br>
-　/login -- ログイン画面<br>
+　/login -- ログイン画面<br><br>
 
-- ログイン済みの場合 - 管理者ユーザー<br>
+`ログイン済みの場合`
+- 管理者ユーザー<br>
 　/admin/products -- 商品管理画面<br>
 　/admin/orders -- 注文対応管理画面<br>
 　/admin/reviews -- 注文評価確認画面<br>
@@ -142,16 +143,16 @@ src/main/java/jp/co/mobileorder/<br>
 　/admin/users -- ユーザー管理画面<br>
 　/admin/users/admin/new -- 新規管理者ユーザー登録画面<br>
 　/admin/products/new -- 商品登録画面<br>
-　/admin/products/edit/:id -- 商品編集画面<br>
+　/admin/products/edit/:id -- 商品編集画面<br><br>
 
-- ログイン済みの場合 - 一般ユーザー<br>
+- 一般ユーザー<br>
 　/menu -- 商品選択画面<br>
 　/order-confirm -- 注文確認画面<br>
 　/order-complete -- 注文完了画面<br>
 　/order-status -- 注文状況確認画面<br>
 　/history -- 注文履歴確認画面<br>
 　/reviews -- 注文評価登録画面<br>
-　/account -- アカウント管理画面<br>
+　/account -- アカウント管理画面<br><br>
 
 - 権限エラー画面の表示条件<br>
 　一般ユーザーが管理者ユーザー用の画面にアクセスした場合<br>
@@ -159,8 +160,6 @@ src/main/java/jp/co/mobileorder/<br>
 　定義されていないURLにアクセスした場合<br>
 
 ### Reactアプリ全体の中心
-Reactアプリ全体の中心は`Appコンポーネント`である<br>
-
 - 画面表示時<br>
 React側<br>
 　`Appコンポーネント`<br>
@@ -168,18 +167,16 @@ React側<br>
 　　現在のURLをrouteとして扱う<br>
 　　routeとauth.roleを見て表示する画面を決める<br>
 　　各画面に必要なデータや処理をpropsで渡す<br>
-　　最後にHeader、表示画面、ConfirmModalをまとめて表示する<br>
+　　最後にHeader、表示画面、ConfirmModalをまとめて表示する<br><br>
 
 - ここで確認すること<br>
-　画面表示、ログイン状態、データ取得、共通モーダルを`Appコンポーネント`でまとめて管理している<br>
+　画面表示、ログイン状態、データ取得、共通モーダルを`Appコンポーネント`でまとめて管理している<br><br>
 
 - 参照ファイル<br>
 React側<br>
 　mobileorder-react/src/App.jsx<br>
 
 ### ログイン状態の確認
-ログイン状態の確認では、React側からJava側へ現在のログイン状態を問い合わせる<br>
-
 - 画面表示時<br>
 React側<br>
 　`Appコンポーネント`<br>
