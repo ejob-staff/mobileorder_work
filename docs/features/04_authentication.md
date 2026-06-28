@@ -1,299 +1,355 @@
-## 4章.認証機能
+## 4-1.認証機能
+### 認証機能とは
+　認証機能では、アプリを利用できるユーザーかどうかを確認する<br>
+
+### 目次
+- [認証機能とは](#認証機能とは)
 - [ログイン画面](#ログイン画面)
-- [ログイン状態確認](#ログイン状態確認)
+- [ログインフォームのstate管理](#ログインフォームのstate管理)
+- [React側のログイン処理](#React側のログイン処理)
+- [SpringSecurityのログイン処理](#SpringSecurityのログイン処理)
+- [ユーザー情報の読み込み](#ユーザー情報の読み込み)
+- [ログイン状態確認API](#ログイン状態確認API)
+- [利用停止中ユーザーの確認](#利用停止中ユーザーの確認)
 - [新規アカウント作成画面](#新規アカウント作成画面)
+- [新規アカウント作成API](#新規アカウント作成API)
+- [ユーザー管理番号の役割](#ユーザー管理番号の役割)
 - [パスワード再設定画面](#パスワード再設定画面)
-- [ログアウト](#ログアウト)
+- [パスワード再設定API](#パスワード再設定API)
+- [ログアウト処理](#ログアウト処理)
 - [認証機能で使う主なデータ](#認証機能で使う主なデータ)
+- [認証機能のエラー表示](#認証機能のエラー表示)
+- [認証機能のまとめ](#認証機能のまとめ)
 
 ### ログイン画面
-ログイン画面では、ユーザー名とパスワードを入力してログイン処理を行う<br>
+　ユーザー名とパスワードを入力してログインする画面<br>
 
-- ログインボタンを押下した場合<br>
-React側<br>
+- 画面を表示した場合<br>
+  React側<br>
 　`LoginPageコンポーネント`<br>
-　　ユーザー名とパスワードを入力する<br>
-　　ログインボタン押下後、ログイン処理を呼び出す<br>
-　　入力内容を`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`<br>
-　　POST /api/loginでリクエスト送信<br>
-<br>
-Java側<br>
-　`SecurityConfig`<br>
-　　POST /api/loginのログイン処理が動く<br>
-　　`AppUserDetailsService`へユーザー検索を依頼する<br>
-　`AppUserDetailsService`<br>
-　　ユーザー名をもとにユーザーを検索する<br>
-　　利用可能なユーザーか確認する<br>
-　`SecurityConfig`<br>
-　　パスワードを確認する<br>
-　　ログインできるか判定する<br>
+　　ユーザー名の入力欄を表示する<br>
+　　パスワードの入力欄を表示する<br>
+　　パスワード表示 / 非表示ボタンを表示する<br>
+　　新規アカウント作成画面へのボタンを表示する<br>
+　　パスワード再設定画面へのボタンを表示する<br>
 
-- ログインできた場合<br>
-React側<br>
+- ここで確認すること<br>
+　ログイン画面は未ログイン状態で表示する<br>
+　パスワードはshowPasswordで表示 / 非表示を切り替えている<br>
+
+- 参照ファイル<br>
+  React側<br>
+　mobileorder-react/src/pages/LoginPage.jsx<br>
+
+### ログインフォームのstate管理
+　ログインフォームの入力値はReact側のstateで管理する<br>
+
+- 入力欄を変更した場合<br>
+  React側<br>
+　`LoginPageコンポーネント`<br>
+　　formにusernameとpasswordを保存する<br>
+　　errorにログイン失敗時のメッセージを保存する<br>
+　　showPasswordにパスワード表示状態を保存する<br>
+　　updateFormで入力値を更新する<br>
+
+- ログインボタンを押した場合<br>
+  React側<br>
+　`LoginPageコンポーネント`<br>
+　　loginを実行する<br>
+　　onLoginへformを渡す<br>
+
+- ここで確認すること<br>
+　入力値はformとしてまとめて管理している<br>
+　画面固有のエラーはLoginPageのerrorに保存している<br>
+
+- 参照ファイル<br>
+  React側<br>
+　mobileorder-react/src/pages/LoginPage.jsx<br>
+
+### React側のログイン処理
+　LoginPageコンポーネントから受け取った入力値をSpringSecurityのログインAPIへ送信する<br>
+
+- ログインする場合<br>
+  React側<br>
+　`LoginPageコンポーネント`<br>
+　　onLoginへユーザー名とパスワードを渡す<br>
 　`Appコンポーネント`<br>
-　　ログイン中ユーザーの情報を取得する<br>
-　　GET /api/auth/statusでリクエスト送信<br>
-<br>
-Java側<br>
-　`AuthController`<br>
-　　ログイン状態を確認する<br>
-　　ユーザー名、権限、表示名を`AuthStatusResponse`で返す<br>
-<br>
-React側<br>
-　`Appコンポーネント`<br>
-　　ログイン情報をauthに保存する<br>
-　　管理者ユーザーは商品管理画面へ移動する<br>
-　　一般ユーザーは商品選択画面へ移動する<br>
+　　loginを実行する<br>
+　　URLSearchParamsでフォームデータを作成する<br>
+　　POST /api/loginでリクエスト送信<br>
+　　ログイン成功時はloadAuthを実行する<br>
+　　ログイン状態をauthに保存する<br>
 
 - ログインに失敗した場合<br>
-React側<br>
+  React側<br>
 　`Appコンポーネント`<br>
-　　POST /api/auth/login-checkでリクエスト送信<br>
-<br>
-Java側<br>
-　`AuthController`<br>
-　　ユーザー名とパスワードが一致するか確認する<br>
-　　利用可能なユーザーか確認する<br>
-　　matchedとenabledを返す<br>
-<br>
-React側<br>
-　`Appコンポーネント`<br>
+　　POST /api/auth/login-checkで利用停止中ユーザーか確認する<br>
 　　利用停止中の場合は専用メッセージを表示する<br>
-　　それ以外の場合はログイン失敗メッセージを表示する<br>
+　　それ以外の場合はユーザー名またはパスワード違いとして扱う<br>
 
 - ここで確認すること<br>
-　ログイン本体はSpring Securityが判定している<br>
-　ログイン成功後にログイン中ユーザー情報を取得している<br>
-　利用停止中かどうかの表示はlogin-checkで補足している<br>
+　ログイン処理そのものはSpringSecurityが行っている<br>
+　ログイン成功後にGET /api/auth/statusでユーザー情報を取得している<br>
+　ユーザーの利用停止 / 利用再開を切り替えるときは確認モーダルを表示する（React側のログイン処理 練習問題4-1-4-1）<br>
 
 - 参照ファイル<br>
-React側<br>
-　mobileorder-react/src/pages/LoginPage.jsx<br>
+  React側<br>
 　mobileorder-react/src/App.jsx<br>
-<br>
-Java側<br>
+　mobileorder-react/src/pages/LoginPage.jsx<br>
+　mobileorder-react/src/pages/admin/UserManagementPage.jsx<br>
+
+### SpringSecurityのログイン処理
+　POST /api/loginに送られたユーザー名とパスワードを判定する<br>
+
+- POST /api/loginされた場合<br>
+  Java側<br>
+　`SecurityConfig`<br>
+　　/api/loginをログイン処理用URLに設定する<br>
+　　ログイン成功時は200とJSONを返す<br>
+　　ログイン失敗時は401を返す<br>
+　　/api/logoutをログアウト処理用URLに設定する<br>
+　　BCryptPasswordEncoderをPasswordEncoderとして使用する<br>
+　　AppUserDetailsServiceを認証ユーザー取得処理として使用する<br>
+
+- ここで確認すること<br>
+　/api/login、/api/logoutはSpringSecurityの機能で処理している<br>
+　/api/admin/**は管理者ユーザー、/api/orders/**や/api/reviews/**は一般ユーザーに制限している<br>
+
+- 参照ファイル<br>
+  Java側<br>
 　config/SecurityConfig.java<br>
 　service/AppUserDetailsService.java<br>
-　controller/AuthController.java<br>
-　dto/AuthStatusResponse.java<br>
-　dto/LoginCheckRequest.java<br>
 
-### ログイン状態確認
-ログイン状態確認では、画面表示時に現在ログインしているユーザー情報を取得する<br>
+### ユーザー情報の読み込み
+ ログイン判定時は、DBからユーザー情報を取得してSpringSecurityへ渡す<br>
 
-- 画面表示時<br>
-React側<br>
-　`Appコンポーネント`<br>
-　　ログイン状態確認処理を実行する<br>
-　　GET /api/auth/statusでリクエスト送信<br>
-<br>
-Java側<br>
-　`AuthController`<br>
-　　ログイン状態を確認する<br>
-
-- ログインしていない場合<br>
-Java側<br>
-　`AuthController`<br>
-　　ログインしていない状態として返す<br>
-<br>
-React側<br>
-　`Appコンポーネント`<br>
-　　authをnullにする<br>
-　　ログイン画面、新規アカウント作成画面、パスワード再設定画面だけ表示できる<br>
-
-- ログイン済みの場合<br>
-Java側<br>
-　`AuthController`<br>
-　　ログイン中のユーザー名を取得する<br>
-　　`AppUserRepository`でユーザー情報を取得する<br>
-　　ユーザー名、権限、表示名を`AuthStatusResponse`で返す<br>
-<br>
-React側<br>
-　`Appコンポーネント`<br>
-　　authにログイン情報を保存する<br>
-　　権限に応じて表示できる画面を切り替える<br>
+- ユーザー名を受け取った場合<br>
+  Java側<br>
+　`AppUserDetailsService`<br>
+　　app_userテーブルからユーザー名で検索する<br>
+　　ユーザーが存在しない場合はUsernameNotFoundExceptionにする<br>
+　　パスワード、権限、利用状態をUserDetailsへ設定する<br>
+　　利用停止中ユーザーはdisabledとして扱う<br>
 
 - ここで確認すること<br>
-　authがあるかどうかでログイン状態を判断している<br>
-　auth.roleがadminかuserかで画面を切り替えている<br>
+　ユーザーの利用状態はSpringSecurityのログイン可否に影響する<br>
+　権限はROLE_USERまたはROLE_ADMINとして渡している<br>
 
 - 参照ファイル<br>
-React側<br>
+  Java側<br>
+　service/AppUserDetailsService.java<br>
+　repository/AppUserRepository.java<br>
+　entity/AppUser.java<br>
+
+### ログイン状態確認API
+ 現在ログインしているユーザー情報をReact側へ返す<br>
+
+- GET /api/auth/statusを呼び出した場合<br>
+  Java側<br>
+　`AuthController`<br>
+　　Authenticationがない場合は未ログインとして返す<br>
+　　ログイン済みの場合はapp_userテーブルからユーザーを取得する<br>
+　　AuthStatusResponseへ変換して返す<br>
+  <br>
+  React側<br>
+　`Appコンポーネント`<br>
+　　authenticatedがtrueの場合はauthに保存する<br>
+　　authenticatedがfalseの場合はauthをnullにする<br>
+
+- 返す情報<br>
+　authenticated -- ログイン済みかどうか<br>
+　username -- ログイン中のユーザー名<br>
+　role -- React側で使う権限<br>
+　displayName -- 画面表示用の名前<br>
+
+- ここで確認すること<br>
+　Java側のROLE_ADMINはReact側でadminとして扱う<br>
+　Java側のROLE_USERはReact側でuserとして扱う<br>
+
+- 参照ファイル<br>
+  React側<br>
 　mobileorder-react/src/App.jsx<br>
-<br>
-Java側<br>
+  <br>
+  Java側<br>
 　controller/AuthController.java<br>
 　dto/AuthStatusResponse.java<br>
-　repository/AppUserRepository.java<br>
+
+### 利用停止中ユーザーの確認
+　ログイン失敗時のメッセージを表示する<br>
+
+- POST /api/loginが失敗した場合<br>
+  React側<br>
+　`Appコンポーネント`<br>
+　　POST /api/auth/login-checkでユーザー名とパスワードを送信する<br>
+  <br>
+  Java側<br>
+　`AuthController`<br>
+　　ユーザー名でapp_userを検索する<br>
+　　パスワードが一致するか確認する<br>
+　　matchedとenabledを返す<br>
+  <br>
+  React側<br>
+　`Appコンポーネント`<br>
+　　matchedがtrueでenabledがfalseの場合は利用停止中メッセージを表示する<br>
+
+- ここで確認すること<br>
+　SpringSecurityのログイン失敗だけでは利用停止中かどうかを画面側で判別しづらい<br>
+　login-checkは専用メッセージ表示のために使用している<br>
+
+- 参照ファイル<br>
+  React側<br>
+　mobileorder-react/src/App.jsx<br>
+  <br>
+  Java側<br>
+　controller/AuthController.java<br>
+　dto/LoginCheckRequest.java<br>
 
 ### 新規アカウント作成画面
-新規アカウント作成画面では、ユーザー管理番号を使って一般ユーザーを登録する<br>
+ 一般ユーザーがユーザー管理番号を使ってアカウントを作成できる画面<br>
 
-- 登録ボタンを押下した場合<br>
-React側<br>
+- /signupにアクセスした場合<br>
+  React側<br>
 　`SignupPageコンポーネント`<br>
-　　ユーザー管理番号、ユーザー名、パスワード、確認用パスワードを入力する<br>
-　　新規アカウント作成処理を呼び出す<br>
-　　入力内容を`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`<br>
-　　POST /api/signupでリクエスト送信<br>
-<br>
-Java側<br>
+　　ユーザー管理番号を入力する<br>
+　　ユーザー名を入力する<br>
+　　パスワードを入力する<br>
+　　パスワード確認用を入力する<br>
+　　入力値をformとしてstateで管理する<br>
+　　登録ボタン押下時にonSignupを呼び出す<br>
+　　登録成功時はログイン画面へ戻る<br>
+　　登録失敗時はerrorにメッセージを表示する<br>
+
+- ここで確認すること<br>
+　ユーザー管理番号以外の入力欄にもplaceholderを指定する（新規アカウント作成画面 練習問題4-1-10-1）<br>
+　登録完了後はApp側のsignup処理を経由してログイン画面へ遷移する<br>
+
+- 参照ファイル<br>
+  React側<br>
+　mobileorder-react/src/pages/SignupPage.jsx<br>
+　mobileorder-react/src/App.jsx<br>
+
+### 新規アカウント作成API
+　入力内容とユーザー管理番号を確認して一般ユーザーを登録する<br>
+
+- POST /api/signupを呼び出した場合<br>
+  Java側<br>
 　`AccountController`<br>
-　　POST /api/signupのリクエスト受取<br>
-　　`SignupRequest`で入力内容を受け取る<br>
-　　`AccountService`へ処理を渡す<br>
+　　SignupRequestを受け取る<br>
+　　AccountServiceへ処理を渡す<br>
 　`AccountService`<br>
 　　パスワードと確認用パスワードが一致するか確認する<br>
 　　同じユーザー名が既に使われていないか確認する<br>
-　　ユーザー管理番号が存在するか確認する<br>
-　　USER-CODEから始まる管理番号か確認する<br>
-　　未使用の管理番号か確認する<br>
+　　入力されたユーザー管理番号が存在するか確認する<br>
+　　USER-CODEから始まる一般ユーザー用の管理番号か確認する<br>
+　　ユーザー管理番号が未使用か確認する<br>
 　　パスワードをBCryptで暗号化する<br>
-　　`AppUser`を一般ユーザーとして登録する<br>
+　　ROLE_USERのAppUserを保存する<br>
 　　ユーザー管理番号を使用済みにする<br>
 
-- 登録できた場合<br>
-React側<br>
-　`SignupPageコンポーネント`<br>
-　　ログイン画面へ移動する<br>
-
-- 登録に失敗した場合<br>
-React側<br>
-　`SignupPageコンポーネント`<br>
-　　Java側から返されたメッセージを表示する<br>
-
 - ここで確認すること<br>
-　新規登録にはUSER-CODEから始まる未使用のユーザー管理番号が必要になる<br>
-　パスワードはそのまま保存せず、BCryptで暗号化して保存している<br>
+　新規アカウント作成で使えるのはUSER-CODEから始まる未使用の管理番号だけ<br>
+　ユーザー名は重複登録できない<br>
 
 - 参照ファイル<br>
-React側<br>
-　mobileorder-react/src/pages/SignupPage.jsx<br>
-　mobileorder-react/src/App.jsx<br>
-<br>
-Java側<br>
+  Java側<br>
 　controller/AccountController.java<br>
 　service/AccountService.java<br>
 　dto/SignupRequest.java<br>
 　entity/AppUser.java<br>
 　entity/UserManagementCode.java<br>
 
-### パスワード再設定画面
-パスワード再設定画面では、使用済みのユーザー管理番号とユーザー名を使ってパスワードを更新する<br>
+### ユーザー管理番号の役割
+　ユーザー登録に使う一意の管理番号である<br>
 
-- 再設定ボタンを押下した場合<br>
-React側<br>
-　`PasswordResetPageコンポーネント`<br>
-　　ユーザー管理番号、ユーザー名、新しいパスワードを入力する<br>
-　　パスワード再設定処理を呼び出す<br>
-　　入力内容を`Appコンポーネント`へ渡す<br>
-　`Appコンポーネント`<br>
-　　POST /api/password-resetでリクエスト送信<br>
-<br>
-Java側<br>
-　`AccountController`<br>
-　　POST /api/password-resetのリクエスト受取<br>
-　　`PasswordResetRequest`で入力内容を受け取る<br>
-　　`AccountService`へ処理を渡す<br>
-　`AccountService`<br>
-　　新しいパスワードと確認用パスワードが一致するか確認する<br>
-　　ユーザー管理番号が存在するか確認する<br>
-　　ユーザー管理番号が使用済みであることを確認する<br>
-　　管理番号に紐づくユーザー名と入力されたユーザー名が一致するか確認する<br>
-　　対象ユーザーを取得する<br>
-　　新しいパスワードをBCryptで暗号化して保存する<br>
-
-- 再設定できた場合<br>
-React側<br>
-　`PasswordResetPageコンポーネント`<br>
-　　ログイン画面へ移動する<br>
-
-- 再設定に失敗した場合<br>
-React側<br>
-　`PasswordResetPageコンポーネント`<br>
-　　Java側から返されたメッセージを表示する<br>
+- 一般ユーザー登録で使う場合<br>
+  Java側<br>
+　`UserManagementCode`<br>
+　　codeに「USER-CODE」または「ADMIN-CODE」から始まる管理番号を保持する<br>
+　　usernameに使用したユーザー名を保持する<br>
+　　usedに使用済みかどうかを保持する<br>
+　　createdAtに発行日時を保持する<br>
+　　usedAtに使用日時を保持する<br>
 
 - ここで確認すること<br>
-　パスワード再設定では、すでに使用済みのユーザー管理番号を使う<br>
-　管理番号とユーザー名が一致しない場合は再設定できない<br>
+　一般ユーザーの新規登録では「USER-CODE」を使用する<br>
+　管理者ユーザー登録では「ADMIN-CODE」を使用する<br>
 
 - 参照ファイル<br>
-React側<br>
+  Java側<br>
+　entity/UserManagementCode.java<br>
+　repository/UserManagementCodeRepository.java<br>
+
+### パスワード再設定画面
+　ユーザー管理番号とユーザー名を使って新しいパスワードを設定する画面<br>
+
+- /password-resetにアクセスした場合<br>
+  React側<br>
+　`PasswordResetPageコンポーネント`<br>
+　　ユーザー管理番号を入力する<br>
+　　ユーザー名を入力する<br>
+　　新しいパスワードを入力する<br>
+　　新しいパスワード確認用を入力する<br>
+　　入力値をformとしてstateで管理する<br>
+　　再設定ボタン押下時にonPasswordResetを呼び出す<br>
+　　再設定成功時はログイン画面へ戻る<br>
+　　再設定失敗時はerrorにメッセージを表示する<br>
+
+- ここで確認すること<br>
+　ユーザー管理番号以外の入力欄にもplaceholderを指定する（パスワード再設定画面 練習問題4-1-14-1）<br>
+　ユーザー管理番号とユーザー名が一致する場合だけパスワードを変更できる<br>
+
+- 参照ファイル<br>
+  React側<br>
 　mobileorder-react/src/pages/PasswordResetPage.jsx<br>
 　mobileorder-react/src/App.jsx<br>
-<br>
-Java側<br>
+
+### パスワード再設定API
+　使用済み管理番号とユーザー名を確認してパスワードを更新する画面<br>
+
+- POST /api/password-resetを呼び出した場合<br>
+  Java側<br>
+　`AccountController`<br>
+　　PasswordResetRequestを受け取る<br>
+　　AccountServiceへ処理を渡す<br>
+　`AccountService`<br>
+　　新しいパスワードと確認用パスワードが一致するか確認する<br>
+　　入力されたユーザー管理番号が存在するか確認する<br>
+　　ユーザー管理番号が使用済みか確認する<br>
+　　ユーザー管理番号に紐づくユーザー名と入力されたユーザー名が一致するか確認する<br>
+　　対象ユーザーを検索する<br>
+　　新しいパスワードをBCryptで暗号化して保存する<br>
+
+- ここで確認すること<br>
+　未使用の管理番号ではパスワード再設定できない<br>
+　管理番号とユーザー名の組み合わせが一致する必要がある<br>
+
+- 参照ファイル<br>
+  Java側<br>
 　controller/AccountController.java<br>
 　service/AccountService.java<br>
 　dto/PasswordResetRequest.java<br>
-　entity/UserManagementCode.java<br>
-　entity/AppUser.java<br>
 
-### ログアウト
-ログアウトでは、共通ヘッダーから確認モーダルを表示してログイン状態を解除する<br>
+### ログアウト処理
+　確認モーダルを表示してからログイン状態を解除する<br>
 
-- ログアウトボタンを押下した場合<br>
-React側<br>
+- ログアウトボタンを押した場合<br>
+  React側<br>
 　`Headerコンポーネント`<br>
-　　ログアウト処理を呼び出す<br>
+　　ログアウトボタンを表示する<br>
 　`Appコンポーネント`<br>
-　　確認モーダルを表示する<br>
-
-- ログアウトを確定した場合<br>
-React側<br>
-　`ConfirmModalコンポーネント`<br>
-　　確定処理を呼び出す<br>
-　`Appコンポーネント`<br>
-　　POST /api/logoutでリクエスト送信<br>
-<br>
-Java側<br>
-　`SecurityConfig`<br>
-　　ログアウト処理が動く<br>
-　　ログアウト成功時は204を返す<br>
-<br>
-React側<br>
-　`Appコンポーネント`<br>
+　　logoutを実行する<br>
+　　ConfirmModalを表示する<br>
+　　確定時にPOST /api/logoutを送信する<br>
 　　authをnullにする<br>
 　　cartを空にする<br>
-　　ログイン画面へ移動する<br>
+　　/loginへ遷移する<br>
 
 - ここで確認すること<br>
 　ログアウト前に共通の確認モーダルを使っている<br>
-　ログアウト後はログイン状態とカート情報をリセットしている<br>
+　ログアウト後はカート情報もリセットしている<br>
 
 - 参照ファイル<br>
-React側<br>
+  React側<br>
+　mobileorder-react/src/App.jsx<br>
 　mobileorder-react/src/components/Header.jsx<br>
 　mobileorder-react/src/components/ConfirmModal.jsx<br>
-　mobileorder-react/src/App.jsx<br>
-<br>
-Java側<br>
-　config/SecurityConfig.java<br>
-
-### 認証機能で使う主なデータ
-- `AppUser`<br>
-　app_userテーブルに対応する<br>
-　ユーザー名、暗号化済みパスワード、表示名、利用状態、権限を持つ<br>
-<br>
-- `UserManagementCode`<br>
-　user_management_codeテーブルに対応する<br>
-　USER-CODEまたはADMIN-CODEから始まる管理番号を持つ<br>
-　新規アカウント作成や管理者登録で使用する<br>
-<br>
-- `Role`<br>
-　ROLE_USERとROLE_ADMINを定義する<br>
-　DBテーブルではなく、ユーザー権限を表すenum<br>
-<br>
-- `SignupRequest`<br>
-　新規アカウント作成時の入力内容を受け取る<br>
-<br>
-- `PasswordResetRequest`<br>
-　パスワード再設定時の入力内容を受け取る<br>
-<br>
-- `AuthStatusResponse`<br>
-　ログイン状態確認APIからReact側へ返す情報を表す<br>
-<br>
-- `LoginCheckRequest`<br>
-　ログイン失敗時に、利用停止中かどうかを確認するための入力内容を受け取る<br>
